@@ -64,16 +64,28 @@ def get_expense_numbers():
     """
     let_add: bool = True
     expense: float = 0
+    valid_category_num: int = 0
     while let_add:
-        category_num: int = int(
-            input("Pick one number from the given list of expenses please: ")
-        )
-        valid_category_num: int = check_category_key(category_num)
-        expense = float(
-            input(
-                f"Please enter the expense for: {category_dict.get(valid_category_num)}: "
+        try:
+            category_num: int = int(
+                input("Pick one number from the given list of expenses please: ")
             )
-        )
+            valid_category_num: int = check_category_key(category_num)
+        except ValueError as e:
+            print(f"{e}, please enter a valid category number")
+            continue
+
+        while True:
+            try:
+                expense = float(
+                    input(
+                        f"Please enter the expense for: {category_dict.get(valid_category_num)}: "
+                    )
+                )
+                break
+            except ValueError as e:
+                print(f"{e}, please enter a valid amount")
+
         expenses.append(
             {
                 "category": category_dict.get(valid_category_num),
